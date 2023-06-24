@@ -1,0 +1,36 @@
+//Take the employee id from the user and delete the record from the database according to the eid 
+
+package first;
+import java.sql.*;
+import java.util.*;
+public class input_id_delete_record {
+	
+		public static void main(String[] args) {
+			Scanner sc = new Scanner(System.in);
+			int eid;
+			System.out.println("Enter the employee id: ");
+			eid = sc.nextInt();
+			try {
+				Class.forName("com.mysql.cj.jdbc.Driver");
+				Connection con=DriverManager.getConnection("jdbc:mysql://localhost:3306/eve","root","sameeredlabadkar@123");
+				PreparedStatement pst = con.prepareStatement("Delete from emp where id = ?");
+				pst.setInt(1, eid);
+				int i = pst.executeUpdate();
+				
+				if(i == 0) {
+					System.out.println("no data found for this employee id");
+				}
+				else {
+					System.out.println("deleted successfully..., "+i);
+				}
+				con.close();
+			}
+			catch(Exception e){
+				System.out.println(e);
+				
+			}
+			
+	}
+	}
+
+
