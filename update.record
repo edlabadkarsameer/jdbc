@@ -1,0 +1,42 @@
+///Take the employee id from the user and update the record according to the id 
+package first;
+import java.sql.*;
+import java.util.*;
+public class input_id_update_record {
+	public static void main(String args[])
+	{
+		Scanner sc = new Scanner (System.in);
+		int eid, esal;
+		String ename;
+		System.out.println("Enter the employee id, name and salary:");
+		eid = sc.nextInt();
+		ename = sc.next();
+		esal = sc.nextInt();
+		try
+		{
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			Connection con=DriverManager.getConnection("jdbc:mysql://localhost:3306/eve","root","sameeredlabadkar@123");
+			PreparedStatement pst = con.prepareStatement("update emp set name=?, salary=? where id =?");	
+			pst.setString(1,ename);
+			pst.setInt(2,esal);
+			pst.setInt(3,eid);
+			int i = pst.executeUpdate();
+			if (i==0) {
+				System.out.println("Record not found");
+			}
+			else {
+				System.out.println("successfully updated,"+i);
+			}
+			
+			
+			con.close();
+			
+		}
+		catch(Exception e)
+		{
+			System.out.println(e);
+		}
+		
+	}
+}
+
