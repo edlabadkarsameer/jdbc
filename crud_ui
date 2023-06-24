@@ -1,0 +1,273 @@
+package first;
+import java.sql.*;
+import java.awt.Button;
+import java.awt.Color;
+import java.awt.FlowLayout;
+import java.awt.Frame;
+import java.awt.Label;
+import java.awt.TextField;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+
+public class curde_operation extends Frame implements ActionListener
+{
+	
+
+	public static void main(String args[])
+	{
+		new curde_operation();	
+	
+	  
+	}
+	
+	static void delete(String b)
+	{
+      try
+      {
+	
+	Class.forName("com.mysql.cj.jdbc.Driver");  
+	Connection con=DriverManager.getConnection("jdbc:mysql://localhost:3306/eve","root","sameeredlabadkar@123");  
+    Statement st=con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE);
+	String sql="delete from emp where id=?";
+	PreparedStatement pst=con.prepareStatement(sql);
+    pst.setString(1,b);
+	int i=pst.executeUpdate();
+     System.out.println("deleted successfully");
+     con.close(); 
+      }
+      catch(Exception e)
+      {
+    	  System.out.println(e);
+   
+      }
+	
+	}
+	
+	static void display(String a)
+	{
+		 int t = Integer.parseInt(a);
+		 try
+		 {
+			   Class.forName("com.mysql.cj.jdbc.Driver");  
+			   Connection con=DriverManager.getConnection("jdbc:mysql://localhost:3306/eve","root","sameeredlabadkar@123");  
+			   Statement st=con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE);
+			   String sql="select * from emp";
+			ResultSet rs=st.executeQuery("select * from emp");
+			   if(rs.next())
+	            {
+	              
+	            }
+			   System.out.println("successfull");
+			    	 
+		 }
+		 catch(Exception e)
+		 {
+			 System.out.println(e);
+		 }
+		 
+	}
+	
+	
+	static void update(String a,String b,String c)
+	  {
+		   try
+	      {
+			   Class.forName("com.mysql.cj.jdbc.Driver");  
+				Connection con=DriverManager.getConnection("jdbc:mysql://localhost:3306/eve","root","sameeredlabadkar@123");  
+	            Statement st=con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE);
+	    	
+	    		  int t = Integer.parseInt(a);
+	    		  String sql="update emp set name=?,salary=? where id="+t+"";
+	    	      PreparedStatement pst=con.prepareStatement(sql);
+	    	    
+//	    	      pst.setString(1,a);
+	    	      pst.setString(1,b);
+	    	      pst.setString(2,c);
+	    	      int i=pst.executeUpdate();
+	    	      System.out.println("succesfful update "+i);
+	    		
+	    	
+	      }
+	      catch(Exception e)
+	      {
+	    	  System.out.println(e);
+	      }
+	  }
+	static void show(String a){
+		try
+		{
+		Class.forName("com.mysql.cj.jdbc.Driver");
+		Connection con=DriverManager.getConnection("jdbc:mysql://localhost:3306/eve","root","sameeredlabadkar@123");
+		PreparedStatement pst = con.prepareStatement("select * from emp where id=?");
+		pst.setString(1,a);
+		ResultSet rs=pst.executeQuery();
+		while(rs.next()) 
+		{
+			System.out.println(rs.getInt(1)+" "+rs.getString(2)+" "+rs.getString(3));
+		}
+		rs.close();
+		}
+		catch(Exception e) {
+			System.out.println(e);
+		}
+	}
+	
+
+	
+	
+	static void insert(String a,String b,String c)
+	 {
+		try
+		{
+			Class.forName("com.mysql.cj.jdbc.Driver");  
+			Connection con=DriverManager.getConnection("jdbc:mysql://localhost:3306/eve","root","sameeredlabadkar@123");  
+            Statement st=con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE);
+			PreparedStatement pst=con.prepareStatement("insert into emp values(?,?,?)");
+			
+			pst.setString(1,a);
+		     pst.setString(2,b);
+		     pst.setString(3,c);
+	        int i=pst.executeUpdate();
+	        System.out.println("inserted succesfull"+i);
+	        con.close();	
+		}
+		catch(Exception e)
+		{
+			System.out.println(e);
+		}
+		 
+	 }
+	
+	Label l1,l2,l3;
+    TextField t1,t2,t3;
+    Button b1,b2,b3,b4,b5;
+    Connection con;
+    ResultSet rs;
+    
+    
+    curde_operation()
+    {
+    	setLayout(new FlowLayout());
+    	setSize(300,400);
+    	setVisible(true);
+    	 setBackground(Color.RED);
+    	setTitle("sameerEdlabadkar");
+    	l1=new Label("id");
+       	l2=new Label("Name");
+       	l3=new Label("Salary");
+        t1=new TextField(30);
+        t2=new TextField(30);
+        t3=new TextField(30);
+        b1=new Button("insert");
+        b2=new Button("update");
+        b3=new Button("delete");
+        b4=new Button("delele the record");
+       
+        b5=new Button("search");
+       
+        add(l1);
+        add(t1);
+        
+        add(l2);
+        add(t2);
+        
+        add(l3);
+        add(t3);
+        
+        add(b1);
+        add(b2);
+        add(b3);
+        add(b5);
+        
+       
+        b1.addActionListener(this);
+        b2.addActionListener(this);
+        b3.addActionListener(this);
+        b4.addActionListener(this);
+        b5.addActionListener(this);
+        
+        try
+        {
+
+        	Class.forName("com.mysql.cj.jdbc.Driver");  
+			Connection con=DriverManager.getConnection("jdbc:mysql://localhost:3306/eve","root","sameeredlabadkar@123");  
+            Statement st=con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE);
+           
+        }
+        catch(Exception e)
+        {
+        	System.out.println(e);
+        }
+        
+        
+        
+        
+        
+        addWindowListener(new WindowAdapter(){
+        	public void windowClosing(WindowEvent e)
+        	{
+        		System.exit(0);
+        	}
+        });
+        
+    
+    }
+    
+    void display() 
+    {
+   	 try 
+   	 {
+      t1.setText(""+rs.getInt(1));
+   	  t2.setText(rs.getString(2));
+   	  t3.setText(""+rs.getInt(3));
+   	 }
+   	 catch(Exception e)
+   	 {
+   		 System.out.println(e);
+   	 }
+   	 
+	 }
+    
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		if(e.getSource()==b1)
+		{ 
+			String a=t1.getText();
+			String b=t2.getText();
+			String c=t3.getText();
+			insert(a,b,c);
+		}
+		else if(e.getSource()==b3)
+		{
+			setVisible(false);
+			setLayout(new FlowLayout());
+	    	setSize(300,400);
+	    	remove(l2);remove(t2);remove(l3);remove(t3);remove(b1);remove(b2);remove(b3);add(b4);
+	    	setVisible(true);
+	    	
+	    	
+	    
+		}
+		else if(e.getSource()==b4)
+		{
+			String a=t1.getText();
+			delete(a);
+		}
+		else if(e.getSource()==b2)
+		{
+			String a=t1.getText();
+			String b=t2.getText();
+			String c=t3.getText();
+			update(a,b,c);
+		}
+		else if(e.getSource()==b5)
+		{
+			String a =t1.getText();
+			show(a);
+			
+	}
+}
+}
