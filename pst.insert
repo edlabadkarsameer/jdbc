@@ -1,0 +1,41 @@
+//Take the data from the user and insert the record into database by connecting to database
+
+package first;
+import java.sql.*;
+import java.util.*;
+
+public class input_data_and_insert_task_2 {
+	public static void main(String args[])
+	{
+		Scanner sc = new Scanner (System.in);
+		int eid, esal;
+		String ename;
+		System.out.println("Enter the employee id, name and salary:");
+		eid = sc.nextInt();
+		ename = sc.next();
+		esal = sc.nextInt();
+		
+	
+		try
+		{
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			Connection con=DriverManager.getConnection("jdbc:mysql://localhost:3306/eve","root","sameeredlabadkar@123");
+			PreparedStatement pst = con.prepareStatement("Insert into emp value(?,?,?)");
+			//pst.setInt(1,30);
+			//pst.setString(2,"kaustubh");
+			//pst.setInt(3,1000000);
+			pst.setInt(1,eid);
+			pst.setString(2,ename);
+			pst.setInt(3,esal);
+			int i = pst.executeUpdate();
+			System.out.println("successfully inserted,"+i);
+			con.close();
+			
+		}
+		catch(Exception e)
+		{
+			System.out.println(e);
+		}
+		
+	}
+}
